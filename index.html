@@ -1,0 +1,1052 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Busia Youth Assembly - Official Portal</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/alpinejs/3.13.5/cdn.min.js" defer></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800&family=Open+Sans:wght@400;600;700&display=swap" rel="stylesheet">
+    
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        forest: '#1B4332',
+                        gold: '#D4AF37',
+                        'gold-light': '#E5C558',
+                    },
+                    fontFamily: {
+                        sans: ['Open Sans', 'sans-serif'],
+                        display: ['Montserrat', 'sans-serif'],
+                    },
+                    boxShadow: {
+                        'nav': '0 4px 12px rgba(27,67,50,0.15)',
+                        'card': '0 2px 8px rgba(0,0,0,0.08)',
+                        'card-hover': '0 8px 24px rgba(0,0,0,0.12)',
+                        'btn-hover': '0 6px 20px rgba(212,175,55,0.25)',
+                    },
+                    animation: {
+                        'ticker': 'ticker 60s linear infinite',
+                    },
+                    keyframes: {
+                        ticker: {
+                            '0%': { transform: 'translateX(100%)' },
+                            '100%': { transform: 'translateX(-100%)' },
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        .hover-underline-animation {
+            display: inline-block;
+            position: relative;
+        }
+        .hover-underline-animation::after {
+            content: '';
+            position: absolute;
+            width: 100%;
+            transform: scaleX(0);
+            height: 2px;
+            bottom: -4px;
+            left: 0;
+            background-color: #D4AF37;
+            transform-origin: bottom center;
+            transition: transform 0.25s ease-out;
+        }
+        .hover-underline-animation:hover::after {
+            transform: scaleX(1);
+        }
+        
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #f1f1f1; 
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #1B4332; 
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #143326; 
+        }
+    </style>
+</head>
+<body class="bg-gray-50 text-gray-800 font-sans antialiased" style="height: auto; min-height: 100%;">
+
+    <!-- Top Bar -->
+    <div class="bg-forest text-white py-2 border-b border-gold/30">
+        <div class="container mx-auto px-6 flex flex-col sm:flex-row justify-between items-center gap-2 text-xs">
+            <div class="flex items-center gap-4">
+                <a href="mailto:info@busiayouthassembly.go.ke" class="hover:text-gold transition-colors flex items-center gap-2">
+                    <i class="fas fa-envelope"></i>
+                    <span>info@busiayouthassembly.go.ke</span>
+                </a>
+                <a href="tel:+254700000000" class="hover:text-gold transition-colors flex items-center gap-2">
+                    <i class="fas fa-phone-alt"></i>
+                    <span>+254 700 000 000</span>
+                </a>
+            </div>
+            <div class="flex items-center gap-4">
+                <span class="text-white/70">Follow Us:</span>
+                <a href="#" class="hover:text-gold transition-colors"><i class="fab fa-facebook-f"></i></a>
+                <a href="#" class="hover:text-gold transition-colors"><i class="fab fa-twitter"></i></a>
+                <a href="#" class="hover:text-gold transition-colors"><i class="fab fa-instagram"></i></a>
+                <a href="#" class="hover:text-gold transition-colors"><i class="fab fa-youtube"></i></a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Navigation -->
+    <header x-data="{ scrolled: false, mobileMenu: false, aboutDropdown: false, legislativeDropdown: false }" 
+            @scroll.window="scrolled = (window.pageYOffset > 20)"
+            :class="scrolled ? 'shadow-nav' : ''"
+            class="sticky top-0 z-50 bg-white transition-shadow duration-300">
+        <div class="container mx-auto px-6 h-20 flex items-center justify-between">
+            <!-- Logo Area -->
+            <div class="flex items-center gap-4">
+                <div class="w-14 h-14 bg-forest rounded-full flex items-center justify-center border-3 border-gold shadow-md">
+                    <i class="fas fa-users text-gold text-xl"></i>
+                </div>
+                <div class="flex flex-col">
+                    <span class="text-forest font-display font-bold text-xl leading-tight tracking-tight">BUSIA YOUTH ASSEMBLY</span>
+                    <span class="text-gold text-xs font-display tracking-widest uppercase font-semibold">Official Legislative Portal</span>
+                </div>
+            </div>
+
+            <!-- Desktop Menu -->
+            <nav class="hidden lg:flex items-center gap-6">
+                <a href="#home" class="text-forest text-sm font-display font-semibold uppercase tracking-wide hover-underline-animation">Home</a>
+                
+                <div class="relative" @mouseenter="aboutDropdown = true" @mouseleave="aboutDropdown = false">
+                    <button class="text-forest text-sm font-display font-semibold uppercase tracking-wide hover-underline-animation flex items-center gap-1">
+                        About Us <i class="fas fa-chevron-down text-xs"></i>
+                    </button>
+                    <div x-show="aboutDropdown" 
+                         x-transition:enter="transition ease-out duration-200"
+                         x-transition:enter-start="opacity-0 -translate-y-2"
+                         x-transition:enter-end="opacity-100 translate-y-0"
+                         class="absolute top-full left-0 mt-2 w-56 bg-white shadow-xl rounded-lg border border-gray-100 py-2 z-50">
+                        <a href="#concept" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gold/10 hover:text-forest font-medium">Concept Note</a>
+                        <a href="#leadership" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gold/10 hover:text-forest font-medium">Leadership</a>
+                        <a href="#wards-map" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gold/10 hover:text-forest font-medium">35 Wards Map</a>
+                    </div>
+                </div>
+
+                <div class="relative" @mouseenter="legislativeDropdown = true" @mouseleave="legislativeDropdown = false">
+                    <button class="text-forest text-sm font-display font-semibold uppercase tracking-wide hover-underline-animation flex items-center gap-1">
+                        Legislative Gallery <i class="fas fa-chevron-down text-xs"></i>
+                    </button>
+                    <div x-show="legislativeDropdown" 
+                         x-transition:enter="transition ease-out duration-200"
+                         x-transition:enter-start="opacity-0 -translate-y-2"
+                         x-transition:enter-end="opacity-100 translate-y-0"
+                         class="absolute top-full left-0 mt-2 w-56 bg-white shadow-xl rounded-lg border border-gray-100 py-2 z-50">
+                        <a href="#standing-orders" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gold/10 hover:text-forest font-medium">Standing Orders</a>
+                        <a href="#hansard" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gold/10 hover:text-forest font-medium">The Hansard</a>
+                        <a href="#resolutions" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gold/10 hover:text-forest font-medium">Passed Resolutions</a>
+                    </div>
+                </div>
+
+                <a href="#committees" class="text-forest text-sm font-display font-semibold uppercase tracking-wide hover-underline-animation">Committees</a>
+                <a href="#citizens-desk" class="text-forest text-sm font-display font-semibold uppercase tracking-wide hover-underline-animation">Citizens' Desk</a>
+                <a href="#media" class="text-forest text-sm font-display font-semibold uppercase tracking-wide hover-underline-animation">Media Center</a>
+                <a href="#join" class="px-5 py-2 bg-gold text-white hover:bg-gold-light transition-colors duration-300 text-sm font-display font-bold uppercase tracking-wide rounded shadow-md">Join BYA</a>
+            </nav>
+
+            <!-- Mobile Menu Button -->
+            <button @click="mobileMenu = !mobileMenu" class="lg:hidden text-forest focus:outline-none">
+                <i class="fas fa-bars text-2xl"></i>
+            </button>
+        </div>
+
+        <!-- Mobile Menu Overlay -->
+        <div x-show="mobileMenu" 
+             x-transition:enter="transition ease-out duration-200"
+             x-transition:enter-start="opacity-0 -translate-y-4"
+             x-transition:enter-end="opacity-100 translate-y-0"
+             x-transition:leave="transition ease-in duration-150"
+             x-transition:leave-start="opacity-100 translate-y-0"
+             x-transition:leave-end="opacity-0 -translate-y-4"
+             class="lg:hidden absolute top-20 left-0 w-full bg-white border-t border-gray-100 shadow-xl py-4 px-6 flex flex-col gap-4 max-h-[calc(100vh-5rem)] overflow-y-auto">
+            <a href="#home" class="text-forest text-sm font-display font-semibold uppercase tracking-wide">Home</a>
+            <div class="border-t border-gray-100 pt-2">
+                <p class="text-xs text-gray-500 uppercase font-bold mb-2">About Us</p>
+                <a href="#concept" class="block py-2 text-sm text-gray-700 font-medium">Concept Note</a>
+                <a href="#leadership" class="block py-2 text-sm text-gray-700 font-medium">Leadership</a>
+                <a href="#wards-map" class="block py-2 text-sm text-gray-700 font-medium">35 Wards Map</a>
+            </div>
+            <div class="border-t border-gray-100 pt-2">
+                <p class="text-xs text-gray-500 uppercase font-bold mb-2">Legislative Gallery</p>
+                <a href="#standing-orders" class="block py-2 text-sm text-gray-700 font-medium">Standing Orders</a>
+                <a href="#hansard" class="block py-2 text-sm text-gray-700 font-medium">The Hansard</a>
+                <a href="#resolutions" class="block py-2 text-sm text-gray-700 font-medium">Passed Resolutions</a>
+            </div>
+            <a href="#committees" class="text-forest text-sm font-display font-semibold uppercase tracking-wide border-t border-gray-100 pt-2">Committees</a>
+            <a href="#citizens-desk" class="text-forest text-sm font-display font-semibold uppercase tracking-wide">Citizens' Desk</a>
+            <a href="#media" class="text-forest text-sm font-display font-semibold uppercase tracking-wide">Media Center</a>
+            <a href="#join" class="text-gold text-sm font-display font-bold uppercase tracking-wide border-t border-gray-100 pt-2">Join BYA</a>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section id="home" class="relative h-screen min-h-[600px] w-full overflow-hidden flex items-center">
+        <!-- Background Image -->
+        <div class="absolute inset-0 z-0">
+            <img src="https://images.unsplash.com/photo-1523731407965-2430cd12f5e4?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80" alt="Busia County Landscape" class="w-full h-full object-cover">
+        </div>
+        
+        <!-- Gradient Overlay -->
+        <div class="absolute inset-0 z-10 bg-gradient-to-r from-forest/95 via-forest/80 to-transparent"></div>
+
+        <!-- Content -->
+        <div class="container mx-auto px-6 relative z-20">
+            <div class="w-full lg:w-[50%]">
+                <div class="inline-flex items-center gap-2 py-2 px-4 border-2 border-gold/70 text-gold text-xs font-bold uppercase tracking-widest mb-6 bg-forest/40 backdrop-blur-sm rounded">
+                    <i class="fas fa-gavel"></i>
+                    <span>Official Youth Legislative Body</span>
+                </div>
+                <h1 class="font-display font-bold text-white text-5xl lg:text-6xl leading-[1.1] tracking-tight mb-6">
+                    The Voice of 500,000 Youth: <span class="text-gold">Governing Busia Together</span>
+                </h1>
+                <p class="font-sans text-white/90 text-lg leading-relaxed mb-10 max-w-2xl">
+                    The Busia Youth Assembly is a pioneering sub-national youth legislative body representing 35 wards across 7 sub-counties. We champion youth participation, policy advocacy, and transparent governance for a prosperous future.
+                </p>
+                <div class="flex flex-wrap gap-4">
+                    <a href="#join" class="h-14 px-8 bg-gold text-white font-display font-bold text-sm uppercase tracking-wide rounded shadow-lg hover:shadow-btn-hover hover:-translate-y-1 transition-all duration-200 flex items-center gap-2">
+                        Join the Assembly <i class="fas fa-arrow-right text-xs"></i>
+                    </a>
+                    <a href="#live" class="h-14 px-8 border-2 border-white text-white font-display font-bold text-sm uppercase tracking-wide rounded hover:bg-white hover:text-forest transition-all duration-200 flex items-center gap-2">
+                        <i class="fas fa-play-circle"></i> Watch Live Session
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- News Ticker -->
+    <div class="h-14 bg-white border-t-2 border-gold relative overflow-hidden flex items-center shadow-md z-30">
+        <div class="absolute left-0 top-0 bottom-0 bg-forest text-white px-6 z-20 flex items-center font-display font-bold text-sm uppercase tracking-wider shadow-md">
+            <i class="fas fa-bullhorn mr-2"></i> Latest News
+        </div>
+        <div class="w-full overflow-hidden whitespace-nowrap">
+            <div class="inline-block animate-ticker pl-48">
+                <span class="mx-8 font-sans text-sm text-gray-700"><span class="text-forest font-bold mr-2">TODAY</span> BYA 5th Sitting scheduled for 2:00 PM - Agenda: Youth Employment Bill Second Reading.</span>
+                <span class="mx-8 text-gold">•</span>
+                <span class="mx-8 font-sans text-sm text-gray-700"><span class="text-forest font-bold mr-2">YESTERDAY</span> Trade & Blue Economy Committee approves KES 2M youth entrepreneurship fund allocation.</span>
+                <span class="mx-8 text-gold">•</span>
+                <span class="mx-8 font-sans text-sm text-gray-700"><span class="text-forest font-bold mr-2">THIS WEEK</span> Public participation forum on ICT infrastructure - Submit your views via Citizens' Desk.</span>
+                <span class="mx-8 text-gold">•</span>
+                <span class="mx-8 font-sans text-sm text-gray-700"><span class="text-forest font-bold mr-2">ANNOUNCEMENT</span> New membership applications open until December 31st. Apply now!</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- Our Impact Section -->
+    <section class="py-20 bg-gray-50">
+        <div class="container mx-auto px-6">
+            <div class="text-center mb-16">
+                <h2 class="font-display font-bold text-forest text-4xl mb-4">Our Impact</h2>
+                <div class="w-20 h-1 bg-gold mx-auto mb-4"></div>
+                <p class="font-sans text-gray-600 text-lg max-w-2xl mx-auto">Representing the youth voice across Busia County through democratic participation and legislative action.</p>
+            </div>
+            
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8 lg:gap-12">
+                <!-- Counter 1 -->
+                <div class="bg-white p-12 rounded-xl shadow-card text-center border-b-4 border-forest hover:shadow-card-hover transition-all duration-300 transform hover:-translate-y-1">
+                    <div class="w-20 h-20 bg-forest/10 rounded-full flex items-center justify-center mx-auto mb-6">
+                        <i class="fas fa-map-marked-alt text-forest text-3xl"></i>
+                    </div>
+                    <div class="flex justify-center items-start mb-2">
+                        <span class="font-display font-bold text-6xl text-forest leading-none">35</span>
+                    </div>
+                    <p class="font-display font-bold text-gray-800 text-xl uppercase tracking-wide mb-2">Wards Represented</p>
+                    <p class="font-sans text-gray-500 text-sm">Across 7 Sub-Counties</p>
+                </div>
+
+                <!-- Counter 2 -->
+                <div class="bg-white p-12 rounded-xl shadow-card text-center border-b-4 border-gold hover:shadow-card-hover transition-all duration-300 transform hover:-translate-y-1">
+                    <div class="w-20 h-20 bg-gold/10 rounded-full flex items-center justify-center mx-auto mb-6">
+                        <i class="fas fa-users text-gold text-3xl"></i>
+                    </div>
+                    <div class="flex justify-center items-start mb-2">
+                        <span class="font-display font-bold text-6xl text-forest leading-none">500</span>
+                        <span class="text-gold text-4xl font-bold mt-2">k</span>
+                    </div>
+                    <p class="font-display font-bold text-gray-800 text-xl uppercase tracking-wide mb-2">Youth Represented</p>
+                    <p class="font-sans text-gray-500 text-sm">Ages 18-35 Years</p>
+                </div>
+
+                <!-- Counter 3 -->
+                <div class="bg-white p-12 rounded-xl shadow-card text-center border-b-4 border-forest hover:shadow-card-hover transition-all duration-300 transform hover:-translate-y-1">
+                    <div class="w-20 h-20 bg-forest/10 rounded-full flex items-center justify-center mx-auto mb-6">
+                        <i class="fas fa-gavel text-forest text-3xl"></i>
+                    </div>
+                    <div class="flex justify-center items-start mb-2">
+                        <span class="font-display font-bold text-6xl text-forest leading-none">12</span>
+                        <span class="text-gold text-4xl font-bold mt-2">+</span>
+                    </div>
+                    <p class="font-display font-bold text-gray-800 text-xl uppercase tracking-wide mb-2">Resolutions Passed</p>
+                    <p class="font-sans text-gray-500 text-sm">Legislative Session 2024</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Live Stream Section -->
+    <section id="live" class="py-20 bg-white">
+        <div class="container mx-auto px-6">
+            <div class="flex flex-col lg:flex-row gap-12 items-center">
+                <!-- Video Player -->
+                <div class="w-full lg:w-2/3">
+                    <div class="relative bg-gray-900 rounded-xl overflow-hidden shadow-2xl aspect-video">
+                        <img src="https://images.unsplash.com/photo-1540575467063-178a50c2df87?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80" alt="Assembly Hall" class="w-full h-full object-cover opacity-60">
+                        <div class="absolute inset-0 flex flex-col items-center justify-center">
+                            <div class="w-20 h-20 bg-gold rounded-full flex items-center justify-center mb-4 shadow-xl cursor-pointer hover:scale-110 transition-transform duration-300">
+                                <i class="fas fa-play text-white text-2xl ml-1"></i>
+                            </div>
+                            <p class="text-white font-display font-bold text-xl mb-2">Live Session in Progress</p>
+                            <p class="text-white/80 text-sm">5th Sitting - Youth Employment Bill</p>
+                            <div class="mt-4 flex items-center gap-2 bg-red-600 px-4 py-2 rounded-full">
+                                <span class="w-2 h-2 bg-white rounded-full animate-pulse"></span>
+                                <span class="text-white text-xs font-bold uppercase">Live Now</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Session Info -->
+                <div class="w-full lg:w-1/3">
+                    <div class="inline-block py-1 px-3 border border-gold text-gold text-xs font-bold uppercase tracking-widest mb-4 rounded">
+                        Current Session
+                    </div>
+                    <h2 class="font-display font-bold text-forest text-3xl mb-6">Watch Assembly Proceedings Live</h2>
+                    <p class="font-sans text-gray-600 text-base leading-relaxed mb-6">
+                        Experience transparent governance in action. All BYA sittings are streamed live to ensure accountability and public participation in the legislative process.
+                    </p>
+                    
+                    <div class="bg-gray-50 p-6 rounded-lg border border-gray-200 mb-6">
+                        <h3 class="font-display font-bold text-forest text-lg mb-4">Today's Agenda</h3>
+                        <ul class="space-y-3 text-sm">
+                            <li class="flex items-start gap-3">
+                                <i class="fas fa-check-circle text-gold mt-1"></i>
+                                <span class="text-gray-700">Opening Prayers & Roll Call</span>
+                            </li>
+                            <li class="flex items-start gap-3">
+                                <i class="fas fa-check-circle text-gold mt-1"></i>
+                                <span class="text-gray-700">Minutes of Previous Sitting</span>
+                            </li>
+                            <li class="flex items-start gap-3">
+                                <i class="fas fa-circle text-gray-300 mt-1 text-xs"></i>
+                                <span class="text-gray-700 font-semibold">Youth Employment Bill - Second Reading</span>
+                            </li>
+                            <li class="flex items-start gap-3">
+                                <i class="fas fa-circle text-gray-300 mt-1 text-xs"></i>
+                                <span class="text-gray-700">Committee Reports</span>
+                            </li>
+                        </ul>
+                    </div>
+
+                    <a href="#" class="inline-flex items-center gap-2 text-gold font-display font-bold text-sm uppercase tracking-wide hover:text-forest transition-colors">
+                        View Full Calendar <i class="fas fa-arrow-right"></i>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Upcoming Sessions Calendar -->
+    <section class="py-20 bg-gray-50">
+        <div class="container mx-auto px-6">
+            <div class="text-center mb-12">
+                <h2 class="font-display font-bold text-forest text-4xl mb-4">Upcoming Sessions</h2>
+                <div class="w-20 h-1 bg-gold mx-auto mb-4"></div>
+                <p class="font-sans text-gray-600 text-lg">Mark your calendar and participate in our democratic process.</p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                <!-- Session Card 1 -->
+                <div class="bg-white rounded-xl shadow-card hover:shadow-card-hover transition-all duration-300 overflow-hidden border-l-4 border-forest">
+                    <div class="bg-forest text-white p-4 flex items-center justify-between">
+                        <div>
+                            <p class="font-display font-bold text-2xl">15</p>
+                            <p class="text-xs uppercase tracking-wider">December 2024</p>
+                        </div>
+                        <div class="w-12 h-12 bg-gold/20 rounded-full flex items-center justify-center">
+                            <i class="fas fa-calendar-alt text-gold text-xl"></i>
+                        </div>
+                    </div>
+                    <div class="p-6">
+                        <h3 class="font-display font-bold text-forest text-lg mb-2">6th Plenary Sitting</h3>
+                        <p class="text-sm text-gray-600 mb-4">Debate on the Agriculture & Food Security Bill</p>
+                        <div class="flex items-center gap-4 text-xs text-gray-500 mb-4">
+                            <span class="flex items-center gap-1"><i class="fas fa-clock text-gold"></i> 2:00 PM</span>
+                            <span class="flex items-center gap-1"><i class="fas fa-map-marker-alt text-gold"></i> Assembly Hall</span>
+                        </div>
+                        <a href="#" class="text-gold font-display font-bold text-sm uppercase tracking-wide hover:text-forest transition-colors">Add to Calendar <i class="fas fa-arrow-right ml-1"></i></a>
+                    </div>
+                </div>
+
+                <!-- Session Card 2 -->
+                <div class="bg-white rounded-xl shadow-card hover:shadow-card-hover transition-all duration-300 overflow-hidden border-l-4 border-gold">
+                    <div class="bg-gold text-white p-4 flex items-center justify-between">
+                        <div>
+                            <p class="font-display font-bold text-2xl">18</p>
+                            <p class="text-xs uppercase tracking-wider">December 2024</p>
+                        </div>
+                        <div class="w-12 h-12 bg-white/20 rounded-full flex items-center justify-center">
+                            <i class="fas fa-users text-white text-xl"></i>
+                        </div>
+                    </div>
+                    <div class="p-6">
+                        <h3 class="font-display font-bold text-forest text-lg mb-2">Health Committee Meeting</h3>
+                        <p class="text-sm text-gray-600 mb-4">Review of Mental Health Services for Youth</p>
+                        <div class="flex items-center gap-4 text-xs text-gray-500 mb-4">
+                            <span class="flex items-center gap-1"><i class="fas fa-clock text-gold"></i> 10:00 AM</span>
+                            <span class="flex items-center gap-1"><i class="fas fa-map-marker-alt text-gold"></i> Committee Room 2</span>
+                        </div>
+                        <a href="#" class="text-gold font-display font-bold text-sm uppercase tracking-wide hover:text-forest transition-colors">Add to Calendar <i class="fas fa-arrow-right ml-1"></i></a>
+                    </div>
+                </div>
+
+                <!-- Session Card 3 -->
+                <div class="bg-white rounded-xl shadow-card hover:shadow-card-hover transition-all duration-300 overflow-hidden border-l-4 border-forest">
+                    <div class="bg-forest text-white p-4 flex items-center justify-between">
+                        <div>
+                            <p class="font-display font-bold text-2xl">22</p>
+                            <p class="text-xs uppercase tracking-wider">December 2024</p>
+                        </div>
+                        <div class="w-12 h-12 bg-gold/20 rounded-full flex items-center justify-center">
+                            <i class="fas fa-handshake text-gold text-xl"></i>
+                        </div>
+                    </div>
+                    <div class="p-6">
+                        <h3 class="font-display font-bold text-forest text-lg mb-2">Public Participation Forum</h3>
+                        <p class="text-sm text-gray-600 mb-4">Youth Entrepreneurship Fund - Community Input</p>
+                        <div class="flex items-center gap-4 text-xs text-gray-500 mb-4">
+                            <span class="flex items-center gap-1"><i class="fas fa-clock text-gold"></i> 3:00 PM</span>
+                            <span class="flex items-center gap-1"><i class="fas fa-map-marker-alt text-gold"></i> Town Hall</span>
+                        </div>
+                        <a href="#" class="text-gold font-display font-bold text-sm uppercase tracking-wide hover:text-forest transition-colors">Add to Calendar <i class="fas fa-arrow-right ml-1"></i></a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Interactive Map Section -->
+    <section id="wards-map" class="py-20 bg-white" x-data="{ activeRegion: null, panelOpen: false, selectedWard: null }">
+        <div class="container mx-auto px-6">
+            <div class="text-center mb-12">
+                <h2 class="font-display font-bold text-forest text-4xl mb-4">35 Wards Across 7 Sub-Counties</h2>
+                <div class="w-20 h-1 bg-gold mx-auto mb-4"></div>
+                <p class="font-sans text-gray-600 text-lg max-w-2xl mx-auto">Click on any sub-county to view the Member of Youth Assembly (MYA) representing each ward in that region.</p>
+            </div>
+
+            <div class="flex flex-col lg:flex-row gap-12 items-center">
+                <!-- Map Visualization -->
+                <div class="w-full lg:w-2/3 relative h-[500px] bg-gray-50 rounded-xl border-2 border-gray-200 p-8 flex items-center justify-center">
+                    <svg viewBox="0 0 600 400" class="w-full h-full drop-shadow-xl">
+                        <!-- Region 1 -->
+                        <path @mouseenter="activeRegion = 'Teso North'" @mouseleave="activeRegion = null" @click="panelOpen = true; activeRegion = 'Teso North'; selectedWard = 'Teso North'"
+                              d="M150,50 L250,20 L300,80 L220,120 L120,100 Z" 
+                              class="cursor-pointer transition-all duration-300 stroke-white stroke-2"
+                              :class="activeRegion === 'Teso North' ? 'fill-gold/20' : 'fill-forest'" />
+                        <text x="200" y="80" class="text-xs font-bold fill-white pointer-events-none" text-anchor="middle">Teso North</text>
+                        
+                        <!-- Region 2 -->
+                        <path @mouseenter="activeRegion = 'Teso South'" @mouseleave="activeRegion = null" @click="panelOpen = true; activeRegion = 'Teso South'; selectedWard = 'Teso South'"
+                              d="M300,80 L400,60 L450,150 L350,180 L220,120 Z" 
+                              class="cursor-pointer transition-all duration-300 stroke-white stroke-2"
+                              :class="activeRegion === 'Teso South' ? 'fill-gold/20' : 'fill-forest'" />
+                        <text x="340" y="120" class="text-xs font-bold fill-white pointer-events-none" text-anchor="middle">Teso South</text>
+                        
+                        <!-- Region 3 -->
+                        <path @mouseenter="activeRegion = 'Nambale'" @mouseleave="activeRegion = null" @click="panelOpen = true; activeRegion = 'Nambale'; selectedWard = 'Nambale'"
+                              d="M220,120 L350,180 L320,250 L200,220 L120,100 Z" 
+                              class="cursor-pointer transition-all duration-300 stroke-white stroke-2"
+                              :class="activeRegion === 'Nambale' ? 'fill-gold/20' : 'fill-forest'" />
+                        <text x="250" y="170" class="text-xs font-bold fill-white pointer-events-none" text-anchor="middle">Nambale</text>
+                        
+                        <!-- Region 4 -->
+                        <path @mouseenter="activeRegion = 'Matayos'" @mouseleave="activeRegion = null" @click="panelOpen = true; activeRegion = 'Matayos'; selectedWard = 'Matayos'"
+                              d="M350,180 L450,150 L520,220 L400,280 L320,250 Z" 
+                              class="cursor-pointer transition-all duration-300 stroke-white stroke-2"
+                              :class="activeRegion === 'Matayos' ? 'fill-gold/20' : 'fill-forest'" />
+                        <text x="410" y="220" class="text-xs font-bold fill-white pointer-events-none" text-anchor="middle">Matayos</text>
+                        
+                        <!-- Region 5 -->
+                        <path @mouseenter="activeRegion = 'Butula'" @mouseleave="activeRegion = null" @click="panelOpen = true; activeRegion = 'Butula'; selectedWard = 'Butula'"
+                              d="M200,220 L320,250 L300,350 L150,320 L100,200 Z" 
+                              class="cursor-pointer transition-all duration-300 stroke-white stroke-2"
+                              :class="activeRegion === 'Butula' ? 'fill-gold/20' : 'fill-forest'" />
+                        <text x="220" y="270" class="text-xs font-bold fill-white pointer-events-none" text-anchor="middle">Butula</text>
+                        
+                        <!-- Region 6 -->
+                        <path @mouseenter="activeRegion = 'Funyula'" @mouseleave="activeRegion = null" @click="panelOpen = true; activeRegion = 'Funyula'; selectedWard = 'Funyula'"
+                              d="M320,250 L400,280 L380,380 L300,350 Z" 
+                              class="cursor-pointer transition-all duration-300 stroke-white stroke-2"
+                              :class="activeRegion === 'Funyula' ? 'fill-gold/20' : 'fill-forest'" />
+                        <text x="350" y="320" class="text-xs font-bold fill-white pointer-events-none" text-anchor="middle">Funyula</text>
+                        
+                        <!-- Region 7 -->
+                        <path @mouseenter="activeRegion = 'Budalangi'" @mouseleave="activeRegion = null" @click="panelOpen = true; activeRegion = 'Budalangi'; selectedWard = 'Budalangi'"
+                              d="M400,280 L520,220 L550,320 L450,390 L380,380 Z" 
+                              class="cursor-pointer transition-all duration-300 stroke-white stroke-2"
+                              :class="activeRegion === 'Budalangi' ? 'fill-gold/20' : 'fill-forest'" />
+                        <text x="460" y="320" class="text-xs font-bold fill-white pointer-events-none" text-anchor="middle">Budalangi</text>
+                    </svg>
+                    
+                    <!-- Tooltip -->
+                    <div x-show="activeRegion && !panelOpen" 
+                         class="absolute top-4 left-4 bg-white px-4 py-2 rounded-lg shadow-xl border-l-4 border-gold z-10"
+                         x-transition>
+                        <span class="font-display font-bold text-forest" x-text="activeRegion"></span>
+                        <p class="text-xs text-gray-500">Click to view MYAs</p>
+                    </div>
+                </div>
+
+                <!-- Legend & Info -->
+                <div class="w-full lg:w-1/3">
+                    <div class="bg-white p-6 rounded-xl shadow-card border border-gray-100">
+                        <h3 class="font-display font-bold text-forest text-xl mb-4">How to Use the Map</h3>
+                        <div class="space-y-4 mb-6">
+                            <div class="flex items-start gap-3">
+                                <div class="w-6 h-6 bg-forest rounded flex-shrink-0 mt-1"></div>
+                                <div>
+                                    <p class="font-sans font-semibold text-sm text-gray-800">Sub-County Region</p>
+                                    <p class="text-xs text-gray-500">Hover to highlight</p>
+                                </div>
+                            </div>
+                            <div class="flex items-start gap-3">
+                                <div class="w-6 h-6 bg-gold/20 border-2 border-gold rounded flex-shrink-0 mt-1"></div>
+                                <div>
+                                    <p class="font-sans font-semibold text-sm text-gray-800">Active Selection</p>
+                                    <p class="text-xs text-gray-500">Click to view details</p>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="bg-gray-50 p-4 rounded-lg border border-gray-200">
+                            <p class="text-xs text-gray-600 leading-relaxed">
+                                Each sub-county contains multiple wards, each represented by a dedicated Member of Youth Assembly (MYA). Click any region to see the full list of representatives.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide-in Panel for Ward Representatives -->
+        <div class="fixed inset-0 z-50 pointer-events-none overflow-hidden" x-show="panelOpen">
+            <div class="absolute inset-0 bg-black/30 backdrop-blur-sm pointer-events-auto" 
+                 @click="panelOpen = false"
+                 x-show="panelOpen"
+                 x-transition:enter="transition-opacity ease-linear duration-300"
+                 x-transition:enter-start="opacity-0"
+                 x-transition:enter-end="opacity-100"
+                 x-transition:leave="transition-opacity ease-linear duration-300"
+                 x-transition:leave-start="opacity-100"
+                 x-transition:leave-end="opacity-0"></div>
+            
+            <div class="absolute right-0 top-0 bottom-0 w-full max-w-lg bg-white shadow-2xl pointer-events-auto flex flex-col"
+                 x-show="panelOpen"
+                 x-transition:enter="transform transition ease-in-out duration-300"
+                 x-transition:enter-start="translate-x-full"
+                 x-transition:enter-end="translate-x-0"
+                 x-transition:leave="transform transition ease-in-out duration-300"
+                 x-transition:leave-start="translate-x-0"
+                 x-transition:leave-end="translate-x-full">
+                
+                <div class="p-8 bg-forest text-white relative">
+                    <button @click="panelOpen = false" class="absolute top-6 right-6 text-white/70 hover:text-white transition-colors">
+                        <i class="fas fa-times text-2xl"></i>
+                    </button>
+                    <h3 class="font-display font-bold text-3xl mb-2" x-text="activeRegion"></h3>
+                    <p class="text-gold text-sm uppercase tracking-wider font-semibold">Sub-County Representatives</p>
+                </div>
+                
+                <div class="flex-1 overflow-y-auto p-8">
+                    <h4 class="font-display font-bold text-gray-800 text-lg mb-6 border-b-2 border-gold pb-2">Members of Youth Assembly (MYAs)</h4>
+                    
+                    <div class="space-y-4">
+                        <!-- MYA 1 -->
+                        <div class="bg-gray-50 p-4 rounded-lg border border-gray-200 hover:border-gold transition-colors">
+                            <div class="flex items-center gap-4 mb-3">
+                                <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?ixlib=rb-4.0.3&auto=format&fit=crop&w=100&q=80" alt="MYA" class="w-14 h-14 rounded-full object-cover border-2 border-gold">
+                                <div>
+                                    <p class="font-display font-bold text-forest text-base">Hon. James Omondi</p>
+                                    <p class="text-xs text-gold font-semibold uppercase tracking-wide">Central Ward</p>
+                                </div>
+                            </div>
+                            <p class="text-xs text-gray-600 mb-2">Trade & Blue Economy Committee</p>
+                            <a href="mailto:j.omondi@bya.go.ke" class="text-xs text-forest hover:text-gold transition-colors flex items-center gap-1">
+                                <i class="fas fa-envelope"></i> j.omondi@bya.go.ke
+                            </a>
+                        </div>
+
+                        <!-- MYA 2 -->
+                        <div class="bg-gray-50 p-4 rounded-lg border border-gray-200 hover:border-gold transition-colors">
+                            <div class="flex items-center gap-4 mb-3">
+                                <img src="https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?ixlib=rb-4.0.3&auto=format&fit=crop&w=100&q=80" alt="MYA" class="w-14 h-14 rounded-full object-cover border-2 border-gold">
+                                <div>
+                                    <p class="font-display font-bold text-forest text-base">Hon. Sarah Wanjiku</p>
+                                    <p class="text-xs text-gold font-semibold uppercase tracking-wide">East Ward</p>
+                                </div>
+                            </div>
+                            <p class="text-xs text-gray-600 mb-2">Health & Social Services Committee</p>
+                            <a href="mailto:s.wanjiku@bya.go.ke" class="text-xs text-forest hover:text-gold transition-colors flex items-center gap-1">
+                                <i class="fas fa-envelope"></i> s.wanjiku@bya.go.ke
+                            </a>
+                        </div>
+
+                        <!-- MYA 3 -->
+                        <div class="bg-gray-50 p-4 rounded-lg border border-gray-200 hover:border-gold transition-colors">
+                            <div class="flex items-center gap-4 mb-3">
+                                <img src="https://images.unsplash.com/photo-1519085360753-af0119f7cbe7?ixlib=rb-4.0.3&auto=format&fit=crop&w=100&q=80" alt="MYA" class="w-14 h-14 rounded-full object-cover border-2 border-gold">
+                                <div>
+                                    <p class="font-display font-bold text-forest text-base">Hon. David Kimani</p>
+                                    <p class="text-xs text-gold font-semibold uppercase tracking-wide">West Ward</p>
+                                </div>
+                            </div>
+                            <p class="text-xs text-gray-600 mb-2">ICT & Innovation Committee</p>
+                            <a href="mailto:d.kimani@bya.go.ke" class="text-xs text-forest hover:text-gold transition-colors flex items-center gap-1">
+                                <i class="fas fa-envelope"></i> d.kimani@bya.go.ke
+                            </a>
+                        </div>
+
+                        <!-- MYA 4 -->
+                        <div class="bg-gray-50 p-4 rounded-lg border border-gray-200 hover:border-gold transition-colors">
+                            <div class="flex items-center gap-4 mb-3">
+                                <img src="https://images.unsplash.com/photo-1580489944761-15a19d654956?ixlib=rb-4.0.3&auto=format&fit=crop&w=100&q=80" alt="MYA" class="w-14 h-14 rounded-full object-cover border-2 border-gold">
+                                <div>
+                                    <p class="font-display font-bold text-forest text-base">Hon. Grace Achieng</p>
+                                    <p class="text-xs text-gold font-semibold uppercase tracking-wide">North Ward</p>
+                                </div>
+                            </div>
+                            <p class="text-xs text-gray-600 mb-2">Agriculture & Food Security Committee</p>
+                            <a href="mailto:g.achieng@bya.go.ke" class="text-xs text-forest hover:text-gold transition-colors flex items-center gap-1">
+                                <i class="fas fa-envelope"></i> g.achieng@bya.go.ke
+                            </a>
+                        </div>
+
+                        <!-- MYA 5 -->
+                        <div class="bg-gray-50 p-4 rounded-lg border border-gray-200 hover:border-gold transition-colors">
+                            <div class="flex items-center gap-4 mb-3">
+                                <img src="https://images.unsplash.com/photo-1500648767791-00dcc994a43e?ixlib=rb-4.0.3&auto=format&fit=crop&w=100&q=80" alt="MYA" class="w-14 h-14 rounded-full object-cover border-2 border-gold">
+                                <div>
+                                    <p class="font-display font-bold text-forest text-base">Hon. Peter Otieno</p>
+                                    <p class="text-xs text-gold font-semibold uppercase tracking-wide">South Ward</p>
+                                </div>
+                            </div>
+                            <p class="text-xs text-gray-600 mb-2">Education & Skills Development Committee</p>
+                            <a href="mailto:p.otieno@bya.go.ke" class="text-xs text-forest hover:text-gold transition-colors flex items-center gap-1">
+                                <i class="fas fa-envelope"></i> p.otieno@bya.go.ke
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="p-6 bg-gray-50 border-t border-gray-200">
+                    <a href="#members" class="block w-full py-3 bg-forest text-white font-display font-bold text-sm uppercase text-center rounded shadow hover:bg-opacity-90 transition">View All 35 MYAs</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Leadership Section -->
+    <section id="leadership" class="py-20 bg-gray-50">
+        <div class="container mx-auto px-6">
+            <div class="text-center mb-16">
+                <h2 class="font-display font-bold text-forest text-4xl mb-4">BYA Leadership</h2>
+                <div class="w-20 h-1 bg-gold mx-auto mb-4"></div>
+                <p class="font-sans text-gray-600 text-lg max-w-2xl mx-auto">Meet the visionary leaders steering the Busia Youth Assembly towards excellence and impactful governance.</p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-5xl mx-auto">
+                <!-- President Card -->
+                <div class="bg-white rounded-xl shadow-card hover:shadow-card-hover transition-all duration-300 overflow-hidden">
+                    <div class="relative h-80">
+                        <img src="https://images.unsplash.com/photo-1560250097-0b93528c311a?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="President" class="w-full h-full object-cover">
+                        <div class="absolute inset-0 bg-gradient-to-t from-forest via-forest/50 to-transparent"></div>
+                        <div class="absolute bottom-0 left-0 right-0 p-6 text-white">
+                            <div class="inline-block py-1 px-3 bg-gold text-white text-xs font-bold uppercase tracking-widest mb-2 rounded">President</div>
+                            <h3 class="font-display font-bold text-3xl mb-1">Hon. Michael Odhiambo</h3>
+                            <p class="text-white/90 text-sm">Chief Executive Officer of BYA</p>
+                        </div>
+                    </div>
+                    <div class="p-6">
+                        <p class="font-sans text-gray-600 text-sm leading-relaxed mb-4">
+                            Leading the Assembly with a vision for inclusive youth participation, economic empowerment, and transparent governance. Championing policies that create opportunities for all young people in Busia County.
+                        </p>
+                        <div class="flex items-center gap-4 mb-4">
+                            <a href="#" class="text-gray-400 hover:text-forest transition-colors"><i class="fab fa-twitter text-lg"></i></a>
+                            <a href="#" class="text-gray-400 hover:text-forest transition-colors"><i class="fab fa-linkedin text-lg"></i></a>
+                            <a href="mailto:president@bya.go.ke" class="text-gray-400 hover:text-forest transition-colors"><i class="fas fa-envelope text-lg"></i></a>
+                        </div>
+                        <a href="#" class="text-gold font-display font-bold text-sm uppercase tracking-wide hover:text-forest transition-colors">View Full Profile <i class="fas fa-arrow-right ml-1"></i></a>
+                    </div>
+                </div>
+
+                <!-- Speaker Card -->
+                <div class="bg-white rounded-xl shadow-card hover:shadow-card-hover transition-all duration-300 overflow-hidden">
+                    <div class="relative h-80">
+                        <img src="https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="Speaker" class="w-full h-full object-cover">
+                        <div class="absolute inset-0 bg-gradient-to-t from-forest via-forest/50 to-transparent"></div>
+                        <div class="absolute bottom-0 left-0 right-0 p-6 text-white">
+                            <div class="inline-block py-1 px-3 bg-gold text-white text-xs font-bold uppercase tracking-widest mb-2 rounded">Speaker</div>
+                            <h3 class="font-display font-bold text-3xl mb-1">Hon. Faith Wambui</h3>
+                            <p class="text-white/90 text-sm">Presiding Officer of the Assembly</p>
+                        </div>
+                    </div>
+                    <div class="p-6">
+                        <p class="font-sans text-gray-600 text-sm leading-relaxed mb-4">
+                            Ensuring orderly conduct of Assembly proceedings, upholding the Standing Orders, and facilitating robust debate on youth issues. Committed to maintaining the dignity and integrity of the legislative process.
+                        </p>
+                        <div class="flex items-center gap-4 mb-4">
+                            <a href="#" class="text-gray-400 hover:text-forest transition-colors"><i class="fab fa-twitter text-lg"></i></a>
+                            <a href="#" class="text-gray-400 hover:text-forest transition-colors"><i class="fab fa-linkedin text-lg"></i></a>
+                            <a href="mailto:speaker@bya.go.ke" class="text-gray-400 hover:text-forest transition-colors"><i class="fas fa-envelope text-lg"></i></a>
+                        </div>
+                        <a href="#" class="text-gold font-display font-bold text-sm uppercase tracking-wide hover:text-forest transition-colors">View Full Profile <i class="fas fa-arrow-right ml-1"></i></a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Committees Section -->
+    <section id="committees" class="py-20 bg-white">
+        <div class="container mx-auto px-6">
+            <div class="text-center mb-16">
+                <h2 class="font-display font-bold text-forest text-4xl mb-4">Specialized Committees</h2>
+                <div class="w-20 h-1 bg-gold mx-auto mb-4"></div>
+                <p class="font-sans text-gray-600 text-lg max-w-2xl mx-auto">Our committees focus on key sectors affecting youth development and prosperity in Busia County.</p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                <!-- Committee 1 -->
+                <div class="bg-gray-50 rounded-xl p-6 border-2 border-gray-200 hover:border-gold hover:shadow-card-hover transition-all duration-300 group">
+                    <div class="w-16 h-16 bg-forest rounded-full flex items-center justify-center mb-4 group-hover:bg-gold transition-colors duration-300">
+                        <i class="fas fa-briefcase text-white text-2xl"></i>
+                    </div>
+                    <h3 class="font-display font-bold text-forest text-xl mb-3">Trade & Blue Economy</h3>
+                    <p class="font-sans text-gray-600 text-sm leading-relaxed mb-4">
+                        Promoting youth entrepreneurship, cross-border trade, and sustainable utilization of Lake Victoria resources for economic growth.
+                    </p>
+                    <div class="flex items-center justify-between">
+                        <span class="text-xs text-gray-500 font-semibold">7 Members</span>
+                        <a href="#" class="text-gold font-display font-bold text-sm uppercase hover:text-forest transition-colors">Learn More <i class="fas fa-arrow-right ml-1"></i></a>
+                    </div>
+                </div>
+
+                <!-- Committee 2 -->
+                <div class="bg-gray-50 rounded-xl p-6 border-2 border-gray-200 hover:border-gold hover:shadow-card-hover transition-all duration-300 group">
+                    <div class="w-16 h-16 bg-forest rounded-full flex items-center justify-center mb-4 group-hover:bg-gold transition-colors duration-300">
+                        <i class="fas fa-heartbeat text-white text-2xl"></i>
+                    </div>
+                    <h3 class="font-display font-bold text-forest text-xl mb-3">Health & Social Services</h3>
+                    <p class="font-sans text-gray-600 text-sm leading-relaxed mb-4">
+                        Advocating for accessible healthcare, mental health support, and social protection programs for vulnerable youth populations.
+                    </p>
+                    <div class="flex items-center justify-between">
+                        <span class="text-xs text-gray-500 font-semibold">6 Members</span>
+                        <a href="#" class="text-gold font-display font-bold text-sm uppercase hover:text-forest transition-colors">Learn More <i class="fas fa-arrow-right ml-1"></i></a>
+                    </div>
+                </div>
+
+                <!-- Committee 3 -->
+                <div class="bg-gray-50 rounded-xl p-6 border-2 border-gray-200 hover:border-gold hover:shadow-card-hover transition-all duration-300 group">
+                    <div class="w-16 h-16 bg-forest rounded-full flex items-center justify-center mb-4 group-hover:bg-gold transition-colors duration-300">
+                        <i class="fas fa-laptop-code text-white text-2xl"></i>
+                    </div>
+                    <h3 class="font-display font-bold text-forest text-xl mb-3">ICT & Innovation</h3>
+                    <p class="font-sans text-gray-600 text-sm leading-relaxed mb-4">
+                        Driving digital transformation, tech skills development, and innovation hubs to prepare youth for the digital economy.
+                    </p>
+                    <div class="flex items-center justify-between">
+                        <span class="text-xs text-gray-500 font-semibold">5 Members</span>
+                        <a href="#" class="text-gold font-display font-bold text-sm uppercase hover:text-forest transition-colors">Learn More <i class="fas fa-arrow-right ml-1"></i></a>
+                    </div>
+                </div>
+
+                <!-- Committee 4 -->
+                <div class="bg-gray-50 rounded-xl p-6 border-2 border-gray-200 hover:border-gold hover:shadow-card-hover transition-all duration-300 group">
+                    <div class="w-16 h-16 bg-forest rounded-full flex items-center justify-center mb-4 group-hover:bg-gold transition-colors duration-300">
+                        <i class="fas fa-seedling text-white text-2xl"></i>
+                    </div>
+                    <h3 class="font-display font-bold text-forest text-xl mb-3">Agriculture & Food Security</h3>
+                    <p class="font-sans text-gray-600 text-sm leading-relaxed mb-4">
+                        Supporting agribusiness, modern farming techniques, and value addition to enhance food security and youth employment.
+                    </p>
+                    <div class="flex items-center justify-between">
+                        <span class="text-xs text-gray-500 font-semibold">6 Members</span>
+                        <a href="#" class="text-gold font-display font-bold text-sm uppercase hover:text-forest transition-colors">Learn More <i class="fas fa-arrow-right ml-1"></i></a>
+                    </div>
+                </div>
+
+                <!-- Committee 5 -->
+                <div class="bg-gray-50 rounded-xl p-6 border-2 border-gray-200 hover:border-gold hover:shadow-card-hover transition-all duration-300 group">
+                    <div class="w-16 h-16 bg-forest rounded-full flex items-center justify-center mb-4 group-hover:bg-gold transition-colors duration-300">
+                        <i class="fas fa-graduation-cap text-white text-2xl"></i>
+                    </div>
+                    <h3 class="font-display font-bold text-forest text-xl mb-3">Education & Skills Development</h3>
+                    <p class="font-sans text-gray-600 text-sm leading-relaxed mb-4">
+                        Promoting quality education, vocational training, and scholarship programs to unlock youth potential and employability.
+                    </p>
+                    <div class="flex items-center justify-between">
+                        <span class="text-xs text-gray-500 font-semibold">7 Members</span>
+                        <a href="#" class="text-gold font-display font-bold text-sm uppercase hover:text-forest transition-colors">Learn More <i class="fas fa-arrow-right ml-1"></i></a>
+                    </div>
+                </div>
+
+                <!-- Committee 6 -->
+                <div class="bg-gray-50 rounded-xl p-6 border-2 border-gray-200 hover:border-gold hover:shadow-card-hover transition-all duration-300 group">
+                    <div class="w-16 h-16 bg-forest rounded-full flex items-center justify-center mb-4 group-hover:bg-gold transition-colors duration-300">
+                        <i class="fas fa-balance-scale text-white text-2xl"></i>
+                    </div>
+                    <h3 class="font-display font-bold text-forest text-xl mb-3">Governance & Ethics</h3>
+                    <p class="font-sans text-gray-600 text-sm leading-relaxed mb-4">
+                        Ensuring transparency, accountability, and ethical conduct in all BYA operations and youth-focused county programs.
+                    </p>
+                    <div class="flex items-center justify-between">
+                        <span class="text-xs text-gray-500 font-semibold">4 Members</span>
+                        <a href="#" class="text-gold font-display font-bold text-sm uppercase hover:text-forest transition-colors">Learn More <i class="fas fa-arrow-right ml-1"></i></a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Citizens' Desk Section -->
+    <section id="citizens-desk" class="py-20 bg-gray-50">
+        <div class="container mx-auto px-6">
+            <div class="text-center mb-16">
+                <h2 class="font-display font-bold text-forest text-4xl mb-4">Citizens' Desk</h2>
+                <div class="w-20 h-1 bg-gold mx-auto mb-4"></div>
+                <p class="font-sans text-gray-600 text-lg max-w-2xl mx-auto">Your voice matters. Participate in the democratic process through petitions, membership, and public forums.</p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                <!-- Petition Portal -->
+                <div class="bg-white rounded-xl p-8 shadow-card hover:shadow-card-hover transition-all duration-300 border-t-4 border-forest">
+                    <div class="w-20 h-20 bg-forest/10 rounded-full flex items-center justify-center mx-auto mb-6">
+                        <i class="fas fa-file-signature text-forest text-3xl"></i>
+                    </div>
+                    <h3 class="font-display font-bold text-forest text-2xl mb-4 text-center">Submit a Petition</h3>
+                    <p class="font-sans text-gray-600 text-sm leading-relaxed text-center mb-6">
+                        Have a concern or proposal? Submit a formal petition to the Assembly for consideration and action.
+                    </p>
+                    <a href="#" class="block w-full py-3 bg-forest text-white font-display font-bold text-sm uppercase text-center rounded shadow hover:bg-opacity-90 transition">Submit Petition</a>
+                </div>
+
+                <!-- Membership Application -->
+                <div class="bg-white rounded-xl p-8 shadow-card hover:shadow-card-hover transition-all duration-300 border-t-4 border-gold">
+                    <div class="w-20 h-20 bg-gold/10 rounded-full flex items-center justify-center mx-auto mb-6">
+                        <i class="fas fa-user-plus text-gold text-3xl"></i>
+                    </div>
+                    <h3 class="font-display font-bold text-forest text-2xl mb-4 text-center">Join BYA</h3>
+                    <p class="font-sans text-gray-600 text-sm leading-relaxed text-center mb-6">
+                        Become a Member of Youth Assembly and represent your ward in shaping policies that affect young people.
+                    </p>
+                    <a href="#join" class="block w-full py-3 bg-gold text-white font-display font-bold text-sm uppercase text-center rounded shadow hover:bg-opacity-90 transition">Apply Now</a>
+                </div>
+
+                <!-- Citizens' Forum -->
+                <div class="bg-white rounded-xl p-8 shadow-card hover:shadow-card-hover transition-all duration-300 border-t-4 border-forest">
+                    <div class="w-20 h-20 bg-forest/10 rounded-full flex items-center justify-center mx-auto mb-6">
+                        <i class="fab fa-facebook text-forest text-3xl"></i>
+                    </div>
+                    <h3 class="font-display font-bold text-forest text-2xl mb-4 text-center">Citizens' Forum</h3>
+                    <p class="font-sans text-gray-600 text-sm leading-relaxed text-center mb-6">
+                        Join our Facebook community to engage with MYAs, share ideas, and stay updated on Assembly activities.
+                    </p>
+                    <a href="#" class="block w-full py-3 bg-forest text-white font-display font-bold text-sm uppercase text-center rounded shadow hover:bg-opacity-90 transition">Join Forum</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Legislative Gallery Section -->
+    <section id="legislative-gallery" class="py-20 bg-white">
+        <div class="container mx-auto px-6">
+            <div class="text-center mb-16">
+                <h2 class="font-display font-bold text-forest text-4xl mb-4">Legislative Gallery</h2>
+                <div class="w-20 h-1 bg-gold mx-auto mb-4"></div>
+                <p class="font-sans text-gray-600 text-lg max-w-2xl mx-auto">Access official documents, transcripts, and resolutions from the Busia Youth Assembly.</p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                <!-- Standing Orders -->
+                <div class="bg-gray-50 rounded-xl overflow-hidden shadow-card hover:shadow-card-hover transition-all duration-300 group">
+                    <div class="h-48 bg-gradient-to-br from-forest to-forest/80 flex items-center justify-center">
+                        <i class="fas fa-book text-white text-6xl group-hover:scale-110 transition-transform duration-300"></i>
+                    </div>
+                    <div class="p-6">
+                        <h3 class="font-display font-bold text-forest text-xl mb-3">Standing Orders</h3>
+                        <p class="font-sans text-gray-600 text-sm leading-relaxed mb-4">
+                            The official rules and procedures governing the conduct of Assembly business and member behavior.
+                        </p>
+                        <div class="flex items-center justify-between">
+                            <span class="text-xs text-gray-500 font-semibold">PDF • 2.4 MB</span>
+                            <a href="#" class="text-gold font-display font-bold text-sm uppercase hover:text-forest transition-colors">Download <i class="fas fa-download ml-1"></i></a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- The Hansard -->
+                <div class="bg-gray-50 rounded-xl overflow-hidden shadow-card hover:shadow-card-hover transition-all duration-300 group">
+                    <div class="h-48 bg-gradient-to-br from-gold to-gold-light flex items-center justify-center">
+                        <i class="fas fa-file-alt text-white text-6xl group-hover:scale-110 transition-transform duration-300"></i>
+                    </div>
+                    <div class="p-6">
+                        <h3 class="font-display font-bold text-forest text-xl mb-3">The Hansard</h3>
+                        <p class="font-sans text-gray-600 text-sm leading-relaxed mb-4">
+                            Official transcripts of all Assembly debates, questions, and statements from each sitting.
+                        </p>
+                        <div class="flex items-center justify-between">
+                            <span class="text-xs text-gray-500 font-semibold">12 Documents</span>
+                            <a href="#" class="text-gold font-display font-bold text-sm uppercase hover:text-forest transition-colors">View All <i class="fas fa-arrow-right ml-1"></i></a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Passed Resolutions -->
+                <div class="bg-gray-50 rounded-xl overflow-hidden shadow-card hover:shadow-card-hover transition-all duration-300 group">
+                    <div class="h-48 bg-gradient-to-br from-forest to-forest/80 flex items-center justify-center">
+                        <i class="fas fa-gavel text-white text-6xl group-hover:scale-110 transition-transform duration-300"></i>
+                    </div>
+                    <div class="p-6">
+                        <h3 class="font-display font-bold text-forest text-xl mb-3">Passed Resolutions</h3>
+                        <p class="font-sans text-gray-600 text-sm leading-relaxed mb-4">
+                            Approved motions, bills, and policy recommendations adopted by the Assembly for implementation.
+                        </p>
+                        <div class="flex items-center justify-between">
+                            <span class="text-xs text-gray-500 font-semibold">12 Resolutions</span>
+                            <a href="#" class="text-gold font-display font-bold text-sm uppercase hover:text-forest transition-colors">View All <i class="fas fa-arrow-right ml-1"></i></a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Call to Action Section -->
+    <section id="join" class="py-20 bg-forest text-white relative overflow-hidden">
+        <div class="absolute inset-0 opacity-10">
+            <div class="absolute inset-0 bg-gradient-to-br from-gold to-transparent"></div>
+        </div>
+        <div class="container mx-auto px-6 relative z-10">
+            <div class="max-w-4xl mx-auto text-center">
+                <h2 class="font-display font-bold text-5xl mb-6">Be Part of the Change</h2>
+                <p class="font-sans text-white/90 text-xl leading-relaxed mb-10">
+                    The Busia Youth Assembly is more than a legislative body—it's a movement. Join us in shaping policies, advocating for youth rights, and building a prosperous future for all young people in Busia County.
+                </p>
+                <div class="flex flex-wrap justify-center gap-4">
+                    <a href="#" class="h-14 px-10 bg-gold text-white font-display font-bold text-sm uppercase tracking-wide rounded shadow-lg hover:shadow-btn-hover hover:-translate-y-1 transition-all duration-200 flex items-center gap-2">
+                        Apply for Membership <i class="fas fa-arrow-right"></i>
+                    </a>
+                    <a href="#" class="h-14 px-10 border-2 border-white text-white font-display font-bold text-sm uppercase tracking-wide rounded hover:bg-white hover:text-forest transition-all duration-200 flex items-center gap-2">
+                        <i class="fas fa-phone-alt"></i> Contact Us
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-forest text-white pt-20 pb-10 border-t-4 border-gold">
+        <div class="container mx-auto px-6">
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12 mb-16">
+                <!-- Brand -->
+                <div>
+                    <div class="flex items-center gap-3 mb-6">
+                        <div class="w-12 h-12 bg-white rounded-full flex items-center justify-center border-2 border-gold">
+                            <i class="fas fa-users text-forest text-xl"></i>
+                        </div>
+                        <div class="flex flex-col">
+                            <span class="font-display font-bold text-lg leading-tight tracking-wide">BUSIA YOUTH ASSEMBLY</span>
+                            <span class="text-gold text-xs font-display tracking-widest uppercase">Legislative Portal</span>
+                        </div>
+                    </div>
+                    <p class="font-sans text-white/70 text-sm leading-relaxed mb-6">
+                        Empowering 500,000 youth across 35 wards to participate in democratic governance and shape the future of Busia County.
+                    </p>
+                    <div class="flex gap-4">
+                        <a href="#" class="w-10 h-10 rounded-full bg-white/10 flex items-center justify-center hover:bg-gold hover:text-forest transition-all duration-300"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#" class="w-10 h-10 rounded-full bg-white/10 flex items-center justify-center hover:bg-gold hover:text-forest transition-all duration-300"><i class="fab fa-twitter"></i></a>
+                        <a href="#" class="w-10 h-10 rounded-full bg-white/10 flex items-center justify-center hover:bg-gold hover:text-forest transition-all duration-300"><i class="fab fa-instagram"></i></a>
+                        <a href="#" class="w-10 h-10 rounded-full bg-white/10 flex items-center justify-center hover:bg-gold hover:text-forest transition-all duration-300"><i class="fab fa-youtube"></i></a>
+                    </div>
+                </div>
+
+                <!-- Quick Links -->
+                <div>
+                    <h4 class="font-display font-bold text-lg mb-6 text-gold">Quick Links</h4>
+                    <ul class="space-y-3 font-sans text-sm text-white/80">
+                        <li><a href="#about" class="hover:text-gold transition-colors">About BYA</a></li>
+                        <li><a href="#leadership" class="hover:text-gold transition-colors">Leadership</a></li>
+                        <li><a href="#committees" class="hover:text-gold transition-colors">Committees</a></li>
+                        <li><a href="#wards-map" class="hover:text-gold transition-colors">35 Wards Map</a></li>
+                        <li><a href="#join" class="hover:text-gold transition-colors">Join BYA</a></li>
+                    </ul>
+                </div>
+
+                <!-- Resources -->
+                <div>
+                    <h4 class="font-display font-bold text-lg mb-6 text-gold">Resources</h4>
+                    <ul class="space-y-3 font-sans text-sm text-white/80">
+                        <li><a href="#standing-orders" class="hover:text-gold transition-colors">Standing Orders</a></li>
+                        <li><a href="#hansard" class="hover:text-gold transition-colors">The Hansard</a></li>
+                        <li><a href="#resolutions" class="hover:text-gold transition-colors">Passed Resolutions</a></li>
+                        <li><a href="#citizens-desk" class="hover:text-gold transition-colors">Submit Petition</a></li>
+                        <li><a href="#media" class="hover:text-gold transition-colors">Media Center</a></li>
+                    </ul>
+                </div>
+
+                <!-- Contact -->
+                <div>
+                    <h4 class="font-display font-bold text-lg mb-6 text-gold">Contact Us</h4>
+                    <ul class="space-y-4 font-sans text-sm text-white/80">
+                        <li class="flex items-start gap-3">
+                            <i class="fas fa-map-marker-alt mt-1 text-gold"></i>
+                            <span>BYA Secretariat,<br>County Assembly Building,<br>Busia Town</span>
+                        </li>
+                        <li class="flex items-center gap-3">
+                            <i class="fas fa-phone-alt text-gold"></i>
+                            <span>+254 700 000 000</span>
+                        </li>
+                        <li class="flex items-center gap-3">
+                            <i class="fas fa-envelope text-gold"></i>
+                            <span>info@busiayouthassembly.go.ke</span>
+                        </li>
+                    </ul>
+                    <div class="mt-6">
+                        <a href="https://busiacounty.go.ke" target="_blank" class="text-xs text-white/70 hover:text-gold transition-colors flex items-center gap-2">
+                            <i class="fas fa-external-link-alt"></i>
+                            <span>Visit Busia County Government</span>
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="border-t border-white/10 pt-8 flex flex-col md:flex-row justify-between items-center gap-4">
+                <p class="font-sans text-xs text-white/50">© 2024 Busia Youth Assembly. All Rights Reserved.</p>
+                <div class="flex gap-6 font-sans text-xs text-white/50">
+                    <a href="#" class="hover:text-white transition-colors">Privacy Policy</a>
+                    <a href="#" class="hover:text-white transition-colors">Terms of Service</a>
+                    <a href="#" class="hover:text-white transition-colors">Accessibility</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+</body>
+</html>
